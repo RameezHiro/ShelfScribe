@@ -84,6 +84,16 @@ npm run dev
 - **Partner categories targeting:** Best Use of Gemma (via Ollama's open-weight model ecosystem), Best Use of Render (live demo)
 - **Submission:** A new project built entirely during Oct 12–18, 2026 window
 
+## Deployment
+The project is configured for easy deployment to Render.com using Docker. A `render.yaml` file is included for one-click deployment.
+
+### Deploy to Render
+1. Fork this repository
+2. Connect your Render account to your GitHub
+3. Create a new Web Service on Render
+4. Connect your forked repository
+5. Render will automatically detect the `render.yaml` file and deploy using Docker
+
 ## License
 MIT License — see [LICENSE](LICENSE) file.
 
