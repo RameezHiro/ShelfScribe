@@ -4,6 +4,35 @@ function App() {
   const [images, setImages] = useState([]);
   const [keywords, setKeywords] = useState('');
   const [productType, setProductType] = useState('');
+  const [listing, setListing] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    setError(null);
+    const formData = new FormData();
+    images.forEach((img) => formData.append("files", img));
+    if (keywords) formData.append("keywords", keywords);
+    if (productType) formData.append("productType", productType);
+
+    try {
+      const response = await fetch("/api/generate-listing", {
+        method: "POST",
+        body: formData,
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const result = await response.json();
+      setListing(result);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   [caption] => (
       <div className="border p-3 mb-3">
         <img
