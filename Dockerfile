@@ -1,6 +1,13 @@
 # Use Python 3.13 slim image
 FROM python:3.13-slim
 
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    ca-certificates \
+    gnupg \
+    && rm -rf /var/lib/apt/lists/*
+
 # Set working directory
 WORKDIR /app
 
@@ -20,12 +27,14 @@ EXPOSE 8000
 # Copy frontend files and build
 WORKDIR /app
 COPY frontend/ ./frontend/
+
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app/frontend
-
-# Install Node.js dependencies
 RUN npm install
-
-# Build the frontend for production
 RUN npm run build
 
 # Go back to backend directory to run the app
